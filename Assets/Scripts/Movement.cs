@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
@@ -40,6 +41,18 @@ private bool salto = false;
 private Animator animator;
 
 
+    //Variables para el dash
+
+    private bool canDash = true;
+    private bool isDashing;
+    private float dashingPower = 10f;
+    private float dashinTime = 0.3f;
+    private float dashingCooldown = 2f;
+
+    [SerializeField] private TrailRenderer tr;
+
+
+
 
 
     // Iniciamos con la función Start que se ejecuta solo UNA vez al inicio
@@ -53,6 +66,12 @@ private Animator animator;
     // La función Update se actualiza en cada ciclo una vez por frame
     private void Update()
     {
+        //Para que el jugador no pueda hacer nada mientras se hace el dash(Se puede quitar si se ve necesario)
+        if (isDashing)
+        {
+            return;
+        }
+
         // Tomamos la dirección del control. Izquierda (-1) derecha(1)
         float movimientoHorizontal = Input.GetAxisRaw("Horizontal");
         ////////////////////////
@@ -66,6 +85,12 @@ animator.SetFloat("VelocidadY", rb2D.velocity.y);
         //Manejamos el salto
         if(Input.GetButtonDown("Jump")){
             salto = true;
+        }
+
+        //Para el dash
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        {
+            StartCoroutine(Dash());
         }
     }
 
@@ -127,5 +152,41 @@ private void OnDrawGizmos() {
     Gizmos.color = Color.yellow;
     Gizmos.DrawWireCube(controladorSuelo.position, dimensionesCaja);
 }
+
+    //Funcion del dash
+    private IEnumerator Dash()
+    {
+
+        //Primero cambiamos la variable canDash para que no se puedan ejecutar varios en poco tiempo
+        canDash = false;
+        //Cambiamos la variable isDashing por true
+        isDashing = true;
+
+        //Para que no afecte la gravedad mientras se ejecuta el dash, se pone en 0
+        float originalGravity = rb2D.gravityScale;
+        rb2D.gravityScale = 0f;
+
+        //Indicamos la direccion en la que se hace el dash (Eje x) y le aplicamos la fuerza
+        rb2D.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
+
+        //particula del dash
+        tr.emitting = true;
+
+        //El cooldown del tiempo que dura el dash
+        yield return new WaitForSeconds(dashinTime);
+
+        //Que pare la particula del dash
+        tr.emitting = false;
+
+        //Se le vuelve a aplicar la gravedad original 
+        rb2D.gravityScale = originalGravity;
+
+        isDashing = false;
+
+        //El cooldown del  dash
+        yield return new WaitForSeconds(dashingCooldown);
+
+        canDash = true;
+    }
 
 }
