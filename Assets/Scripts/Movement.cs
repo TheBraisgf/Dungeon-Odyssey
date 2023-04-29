@@ -6,6 +6,9 @@ public class Movement : MonoBehaviour
     // Hacemos referencia al componente Rigidbody 2D
     private Rigidbody2D rb2D;
 
+public bool sePuedeMover = true;
+[SerializeField] private Vector2 velocidadDeRebote;
+
     // Variables de movimiento
     [Header("Movement")]
     // Velocidad del personaje
@@ -104,12 +107,13 @@ enSuelo = Physics2D.OverlapBox(controladorSuelo.position, dimensionesCaja, 0f, q
 animator.SetBool("enSuelo", enSuelo);
 
 
+if(sePuedeMover){
         // La función Mover se llama en la función FixedUpdate para actualizar la física del movimiento del personaje
         // La velocidad que tenemos - la que tiene el Rigidbody (no altera la velocidad al caer o saltar)
         Vector3 velocidadObjetivo = new Vector2(rb2D.velocity.x, rb2D.velocity.y);
         // La función SmoothDamp nos permite hacer que haya un suavizado al acelerar o frenar el personaje
         rb2D.velocity = Vector3.SmoothDamp(rb2D.velocity, velocidadObjetivo, ref velocidad, suavizadoDeMovimiento);
-    
+}
     salto = false;
     }
 
@@ -135,6 +139,22 @@ rb2D.velocity = Vector3.SmoothDamp(rb2D.velocity, velocidadDeMovimiento, ref vel
             rb2D.AddForce(new Vector2(0f, fuerzaDeSalto));
         }
     }
+
+//Rebote en el dano del jugador
+
+public void Rebote(Vector2 puntoGolpe){
+    // Calcula la dirección del rebote
+    Vector2 direccion = (transform.position - (Vector3)puntoGolpe);
+
+    // Normaliza la dirección para que tenga magnitud 1
+    direccion = direccion.normalized;
+
+    // Aplica la velocidad de rebote en la dirección opuesta
+    rb2D.velocity = new Vector2(direccion.x * velocidadDeRebote.x, velocidadDeRebote.y);
+}
+
+
+
 
    private void Girar()
 {
