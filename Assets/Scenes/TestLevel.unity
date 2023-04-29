@@ -496,6 +496,7 @@ GameObject:
   - component: {fileID: 781709676}
   - component: {fileID: 781709678}
   - component: {fileID: 781709679}
+  - component: {fileID: 781709680}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -630,6 +631,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14f0698090b465d41a747e316665af33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sePuedeMover: 1
+  velocidadDeRebote: {x: 10, y: 10}
   velocidadDeMovimiento: 700
   suavizadoDeMovimiento: 0
   fuerzaDeSalto: 900
@@ -639,6 +642,7 @@ MonoBehaviour:
   controladorSuelo: {fileID: 595565694}
   dimensionesCaja: {x: 1, y: 0.25, z: 0}
   enSuelo: 0
+  tr: {fileID: 0}
 --- !u!95 &781709679
 Animator:
   serializedVersion: 5
@@ -660,6 +664,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &781709680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781709672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d27edfe06c56dbe4181bc1b9eee5643f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vida: 100
+  tiempoPerdidaControl: 1
 --- !u!1 &803174949
 GameObject:
   m_ObjectHideFlags: 0
@@ -999,6 +1017,7 @@ GameObject:
   - component: {fileID: 1360542176}
   - component: {fileID: 1360542175}
   - component: {fileID: 1360542174}
+  - component: {fileID: 1360542179}
   m_Layer: 0
   m_Name: Skeleton
   m_TagString: Untagged
@@ -1158,6 +1177,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1360542179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360542172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4babbc32b82c5b46827c9e7dd10222d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1510314888
 GameObject:
   m_ObjectHideFlags: 0
